@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<script>
+	
+	function buttonClick() {
+	
+	    $('.output').text("")
+	    var searchText = document.getElementById('input').value;
+        $.ajax({  
+              type: "GET",
+              dataType: "json",
+              url: "http://localhost:8080/search/text?text="+searchText,
+              success: function (response, status, xhr) {
+            	  console.log("RESPONSE: "+response);
+            	  
+                  $.each(response, function(index, value) {
+                    $('.output').append("Doc id:"+value.docid + ", sender: "+ value.sender + ", recipients: "+ value.recipients + ", cc: "+ value.cc +
+                    		", bcc: "+ value.bcc + ", date: "+ value.date +" <br />");
+      			   });        	  
+                 },
+              error: function (jqXHR, textStatus) {
+            	   console.log( "Request failed: " + textStatus );
+                 }
+              });
+    }
+	</script>
+
+	<head>
+ 		<meta charset="UTF-8">
+        <title>Spring Boot Elastic Search</title>
+        <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+    </head>
+	<body>
+   		<h3>Spring Boot Elastic Search</h3> <br> <br> 
+		  Enter search text: <input type="text" id="input"> &nbsp; &nbsp;
+		<button onclick="buttonClick()">Search</button> <br> <br>
+	
+    	<div>
+  		  <p class="output"></p>
+   	    </div>
+    </body>
+</html>
